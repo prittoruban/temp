@@ -1,0 +1,2598 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neural Networks & Deep Learning — Exam Notes</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Playfair+Display:wght@700&family=Source+Serif+4:wght@400;600&display=swap");
+      :root {
+        --bg: #0d0f14;
+        --surface: #161820;
+        --card: #1c1e27;
+        --border: #2a2d3a;
+        --accent: #7c6af7;
+        --accent2: #3ecfb2;
+        --accent3: #f97c5a;
+        --accent4: #f4c842;
+        --text: #e8eaf0;
+        --muted: #8b8fa8;
+        --keyword: #f4c842;
+        --mono: "JetBrains Mono", monospace;
+        --serif: "Source Serif 4", serif;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--serif);
+        line-height: 1.7;
+        min-height: 100vh;
+      }
+
+      /* NAV */
+      .topbar {
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        padding: 0;
+        position: relative;
+        top: 0;
+        z-index: 100;
+      }
+      .topbar-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0.6rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .topbar h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 1rem;
+        color: var(--accent);
+        white-space: nowrap;
+      }
+      .nav-tabs {
+        display: flex;
+        gap: 0.25rem;
+        flex-wrap: wrap;
+        flex: 1;
+      }
+      .nav-tab {
+        background: transparent;
+        border: 1px solid transparent;
+        color: var(--muted);
+        padding: 0.3rem 0.7rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.72rem;
+        font-family: var(--mono);
+        transition: all 0.2s;
+        white-space: nowrap;
+      }
+      .nav-tab:hover {
+        border-color: var(--border);
+        color: var(--text);
+      }
+      .nav-tab.active {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+      }
+      .cheat-btn {
+        background: var(--accent3);
+        border: none;
+        color: #fff;
+        padding: 0.35rem 0.9rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.72rem;
+        font-family: var(--mono);
+        white-space: nowrap;
+      }
+
+      /* SECTIONS */
+      .section {
+        display: none;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem 4rem;
+      }
+      .section.active {
+        display: block;
+      }
+
+      /* CARDS */
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1.4rem;
+        margin-bottom: 1.2rem;
+      }
+      .card h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        color: var(--accent);
+        margin-bottom: 0.3rem;
+      }
+      .card h3 {
+        font-size: 1rem;
+        color: var(--accent2);
+        margin: 1rem 0 0.4rem;
+        font-family: var(--mono);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .card h4 {
+        font-size: 0.9rem;
+        color: var(--accent4);
+        margin: 0.8rem 0 0.3rem;
+      }
+
+      .badge {
+        display: inline-block;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        padding: 0.15rem 0.5rem;
+        border-radius: 4px;
+        margin-bottom: 0.6rem;
+      }
+      .badge-purple {
+        background: #2a2060;
+        color: var(--accent);
+        border: 1px solid var(--accent);
+      }
+      .badge-teal {
+        background: #0d2a25;
+        color: var(--accent2);
+        border: 1px solid var(--accent2);
+      }
+      .badge-orange {
+        background: #2a1a0f;
+        color: var(--accent3);
+        border: 1px solid var(--accent3);
+      }
+      .badge-yellow {
+        background: #2a2208;
+        color: var(--accent4);
+        border: 1px solid var(--accent4);
+      }
+
+      /* KEYWORDS */
+      kw {
+        background: #2a2208;
+        color: var(--keyword);
+        font-style: normal;
+        font-weight: 600;
+        padding: 0 3px;
+        border-radius: 3px;
+        font-family: var(--mono);
+        font-size: 0.88em;
+      }
+
+      /* LISTS */
+      ul,
+      ol {
+        padding-left: 1.4rem;
+        margin: 0.5rem 0;
+      }
+      li {
+        margin-bottom: 0.3rem;
+        font-size: 0.94rem;
+      }
+
+      /* EQUATIONS */
+      .eq-box {
+        background: #0a0a14;
+        border: 1px solid var(--accent);
+        border-radius: 8px;
+        padding: 0.9rem 1.2rem;
+        margin: 0.6rem 0;
+        font-family: var(--mono);
+        font-size: 0.9rem;
+        color: #c8b0ff;
+      }
+      .eq-box .eq-label {
+        font-size: 0.72rem;
+        color: var(--muted);
+        margin-bottom: 0.4rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .eq-box .eq-main {
+        font-size: 1.05rem;
+        color: #b8d4ff;
+        margin-bottom: 0.4rem;
+      }
+      .eq-box .eq-terms {
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+
+      /* DIAGRAM */
+      .diagram-box {
+        background: #0a0c12;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 1rem;
+        margin: 0.6rem 0;
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        white-space: pre;
+        color: var(--accent2);
+        overflow-x: auto;
+      }
+
+      /* TABLE */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0.6rem 0;
+        font-size: 0.88rem;
+      }
+      th {
+        background: #1a1c28;
+        color: var(--accent);
+        padding: 0.6rem 0.8rem;
+        text-align: left;
+        border: 1px solid var(--border);
+        font-family: var(--mono);
+        font-size: 0.8rem;
+      }
+      td {
+        padding: 0.5rem 0.8rem;
+        border: 1px solid var(--border);
+        color: var(--text);
+        vertical-align: top;
+      }
+      tr:nth-child(even) td {
+        background: #141620;
+      }
+
+      /* GRID */
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      .grid3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1rem;
+      }
+      @media (max-width: 680px) {
+        .grid2,
+        .grid3 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* TIPS */
+      .tip-box {
+        background: #0f2a1a;
+        border-left: 3px solid var(--accent2);
+        border-radius: 0 8px 8px 0;
+        padding: 0.8rem 1rem;
+        margin: 0.6rem 0;
+        font-size: 0.9rem;
+      }
+      .tip-box strong {
+        color: var(--accent2);
+      }
+      .warn-box {
+        background: #2a1a0a;
+        border-left: 3px solid var(--accent3);
+        border-radius: 0 8px 8px 0;
+        padding: 0.8rem 1rem;
+        margin: 0.6rem 0;
+        font-size: 0.9rem;
+      }
+      .warn-box strong {
+        color: var(--accent3);
+      }
+      .mnemonic-box {
+        background: #1a1030;
+        border: 1px dashed var(--accent);
+        border-radius: 8px;
+        padding: 0.8rem 1rem;
+        margin: 0.6rem 0;
+        font-size: 0.9rem;
+      }
+      .mnemonic-box strong {
+        color: var(--accent);
+      }
+
+      /* FLOWCHART */
+      .flow {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+        margin: 0.5rem 0;
+      }
+      .flow-box {
+        background: #1e203a;
+        border: 1px solid var(--accent);
+        border-radius: 6px;
+        padding: 0.3rem 0.7rem;
+        font-size: 0.82rem;
+        font-family: var(--mono);
+        color: var(--accent);
+        white-space: nowrap;
+      }
+      .flow-box.teal {
+        border-color: var(--accent2);
+        background: #0d1e20;
+        color: var(--accent2);
+      }
+      .flow-box.orange {
+        border-color: var(--accent3);
+        background: #1e120a;
+        color: var(--accent3);
+      }
+      .flow-box.yellow {
+        border-color: var(--accent4);
+        background: #1e1a08;
+        color: var(--accent4);
+      }
+      .flow-arrow {
+        color: var(--muted);
+        font-size: 1rem;
+      }
+
+      /* SEPARATOR */
+      hr {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 1.2rem 0;
+      }
+
+      /* CHEAT SHEET */
+      .cheat-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8rem;
+      }
+      @media (max-width: 680px) {
+        .cheat-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .cheat-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 0.9rem;
+      }
+      .cheat-card h3 {
+        font-family: var(--mono);
+        font-size: 0.78rem;
+        color: var(--accent3);
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+      }
+      .cheat-card li {
+        font-size: 0.82rem;
+        margin-bottom: 0.2rem;
+      }
+
+      /* SECTION HEADER */
+      .sec-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 1rem;
+      }
+      .sec-num {
+        font-family: "Playfair Display", serif;
+        font-size: 3rem;
+        color: var(--border);
+        line-height: 1;
+      }
+      .sec-title {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        color: var(--text);
+      }
+      .sec-sub {
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        color: var(--accent);
+        margin-top: 0.2rem;
+      }
+
+      p {
+        font-size: 0.94rem;
+        margin-bottom: 0.5rem;
+      }
+      strong {
+        color: var(--accent4);
+      }
+
+      .highlight-row td:first-child {
+        color: var(--accent4);
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="topbar-inner">
+        <h1>NN &amp; DL Exam Notes</h1>
+        <div class="nav-tabs">
+          <button class="nav-tab active" onclick="show(0)">1. Backprop</button>
+          <button class="nav-tab" onclick="show(1)">2. CNN</button>
+          <button class="nav-tab" onclick="show(2)">3. RNN/LSTM/GRU</button>
+          <button class="nav-tab" onclick="show(3)">4. Regularization</button>
+          <button class="nav-tab" onclick="show(4)">5. Tensors</button>
+          <button class="nav-tab" onclick="show(5)">6. Shallow vs Deep</button>
+          <button class="nav-tab" onclick="show(6)">7. Autoencoders</button>
+          <button class="nav-tab" onclick="show(7)">8. RBM/DBN/CBM</button>
+        </div>
+        <button class="cheat-btn" onclick="show(8)">⚡ Cheat Sheet</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+     TOPIC 1: BACKPROPAGATION
+═══════════════════════════════════════════════════════════ -->
+    <div class="section active" id="s0">
+      <div class="sec-header">
+        <div class="sec-num">01</div>
+        <div>
+          <div class="sec-title">Backpropagation</div>
+          <div class="sec-sub">
+            TRAINING ALGORITHM · GRADIENT DESCENT · WEIGHT UPDATE
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-purple">5-Mark Answer</span>
+        <h2>What is Backpropagation?</h2>
+        <p>
+          Backpropagation (short for <kw>Backward Propagation of Errors</kw>) is
+          the core algorithm used to <strong>train neural networks</strong>. It
+          works by computing the <kw>gradient</kw> of the loss function with
+          respect to each weight in the network using the <kw>chain rule</kw> of
+          calculus. These gradients are then used to update the weights via
+          <kw>gradient descent</kw>, minimizing the error over time.
+        </p>
+        <p>
+          It has two phases: <kw>Forward Pass</kw> (input flows through the
+          network to produce output and compute loss) and
+          <kw>Backward Pass</kw> (error is propagated back layer by layer to
+          calculate gradients).
+        </p>
+        <div class="mnemonic-box">
+          <strong>Mnemonic:</strong> "FLUB" — Forward pass → Loss computed →
+          Update gradients → Back through layers
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-teal">13-Mark Answer Format</span>
+        <h3>1. Definition</h3>
+        <p>
+          Backpropagation is a <kw>supervised learning algorithm</kw> used to
+          train <kw>Multi-Layer Perceptrons (MLPs)</kw>. It efficiently computes
+          gradients by applying the <kw>chain rule</kw> layer by layer in
+          reverse order.
+        </p>
+
+        <h3>2. Algorithm Steps (Write this as numbered steps!)</h3>
+        <ol>
+          <li><strong>Initialize weights</strong> randomly (small values)</li>
+          <li>
+            <strong>Forward Pass:</strong> Compute output for each layer using
+            activation functions
+          </li>
+          <li>
+            <strong>Compute Loss:</strong> Calculate error using loss function
+            (e.g., MSE, Cross-Entropy)
+          </li>
+          <li>
+            <strong>Backward Pass:</strong> Compute gradient of loss w.r.t. each
+            weight using chain rule
+          </li>
+          <li>
+            <strong>Update Weights:</strong> Subtract gradient × learning rate
+            from each weight
+          </li>
+          <li><strong>Repeat</strong> for all training examples (epochs)</li>
+        </ol>
+
+        <h3>3. Key Equation</h3>
+        <div class="eq-box">
+          <div class="eq-label">Weight Update Rule</div>
+          <div class="eq-main">w_new = w_old − η × (∂L/∂w)</div>
+          <div class="eq-terms">
+            η = learning rate | L = Loss function | ∂L/∂w = gradient of loss
+            w.r.t. weight
+          </div>
+        </div>
+        <div class="eq-box">
+          <div class="eq-label">Chain Rule (core of backprop)</div>
+          <div class="eq-main">∂L/∂w = (∂L/∂y) × (∂y/∂z) × (∂z/∂w)</div>
+          <div class="eq-terms">
+            y = output | z = pre-activation | w = weight
+          </div>
+        </div>
+
+        <h3>4. Diagram to Draw in Exam</h3>
+        <div class="diagram-box">
+          Input Layer Hidden Layer Output Layer [X] ──────→ [H1] ──────→ [O] ──→
+          Loss │ ◄─── Backward Pass ──────────┘ (gradients flow back through
+          each layer) Forward: X → Z = WX+b → A = σ(Z) → Loss Backward: ∂L/∂W →
+          update W via gradient descent
+        </div>
+
+        <h3>5. Flowchart</h3>
+        <div class="flow">
+          <div class="flow-box">Initialize Weights</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box teal">Forward Pass</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box orange">Compute Loss</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box teal">Backward Pass</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box yellow">Update Weights</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box">Repeat (Epoch)</div>
+        </div>
+
+        <h3>6. Important Keywords to Underline</h3>
+        <p>
+          <kw>Backpropagation</kw> · <kw>Chain Rule</kw> ·
+          <kw>Gradient Descent</kw> · <kw>Learning Rate (η)</kw> ·
+          <kw>Loss Function</kw> · <kw>Forward Pass</kw> ·
+          <kw>Backward Pass</kw> · <kw>Weight Update</kw> · <kw>Epoch</kw> ·
+          <kw>Activation Function</kw>
+        </p>
+
+        <h3>7. Advantages &amp; Disadvantages</h3>
+        <div class="grid2">
+          <div>
+            <h4>✅ Advantages</h4>
+            <ul>
+              <li>Works for any network architecture</li>
+              <li>Computationally efficient using chain rule</li>
+              <li>Handles non-linear relationships well</li>
+              <li>Foundation of modern deep learning</li>
+            </ul>
+          </div>
+          <div>
+            <h4>❌ Disadvantages</h4>
+            <ul>
+              <li><kw>Vanishing Gradient Problem</kw> in deep networks</li>
+              <li>Sensitive to learning rate choice</li>
+              <li>May converge to local minima</li>
+              <li>Computationally expensive for large networks</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>8. Real-World Applications</h3>
+        <ul>
+          <li>Training image classifiers (ResNet, VGG)</li>
+          <li>Natural Language Processing (BERT, GPT)</li>
+          <li>Speech recognition systems (Siri, Alexa)</li>
+          <li>Medical diagnosis (cancer detection)</li>
+        </ul>
+
+        <h3>9. Comparison: Gradient Descent Variants</h3>
+        <table>
+          <tr>
+            <th>Type</th>
+            <th>Updates per</th>
+            <th>Speed</th>
+            <th>Accuracy</th>
+          </tr>
+          <tr>
+            <td><kw>Batch GD</kw></td>
+            <td>Entire dataset</td>
+            <td>Slow</td>
+            <td>High</td>
+          </tr>
+          <tr>
+            <td><kw>Stochastic GD</kw></td>
+            <td>One sample</td>
+            <td>Fast</td>
+            <td>Noisy</td>
+          </tr>
+          <tr>
+            <td><kw>Mini-Batch GD</kw></td>
+            <td>Small batch</td>
+            <td>Balanced</td>
+            <td>Balanced</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>How to Write This Answer in Exam</h3>
+        <div class="tip-box">
+          <strong>Exam Tip:</strong> Always start with "Backpropagation is
+          defined as..." then immediately write the 6 steps as a numbered list.
+          This alone gives 5-6 marks. Draw the forward/backward diagram. Write
+          the weight update equation. Add advantages/disadvantages as two
+          columns.
+        </div>
+        <h4>Common Filler Points (to increase length naturally)</h4>
+        <ul>
+          <li>
+            "The learning rate η controls the step size during gradient descent.
+            A very large η leads to overshooting, while a very small η leads to
+            slow convergence."
+          </li>
+          <li>
+            "The loss function measures the difference between the predicted
+            output and the actual output. Common choices include MSE for
+            regression and Cross-Entropy for classification."
+          </li>
+          <li>
+            "The chain rule is the mathematical foundation of backpropagation,
+            allowing gradient computation through composite functions."
+          </li>
+          <li>
+            "Vanishing gradient problem occurs when gradients become extremely
+            small in deeper layers, making it difficult to update earlier
+            weights."
+          </li>
+        </ul>
+        <div class="mnemonic-box">
+          <strong>Memory Trick:</strong> Remember "FILB-U" = Forward → Inputs →
+          Loss → Backward → Update
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+     TOPIC 2: CNN ARCHITECTURE
+═══════════════════════════════════════════════════════════ -->
+    <div class="section" id="s1">
+      <div class="sec-header">
+        <div class="sec-num">02</div>
+        <div>
+          <div class="sec-title">CNN Architecture</div>
+          <div class="sec-sub">
+            CONVOLUTIONAL NEURAL NETWORK · IMAGE PROCESSING · FEATURE EXTRACTION
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-purple">5-Mark Answer</span>
+        <h2>What is CNN?</h2>
+        <p>
+          A <kw>Convolutional Neural Network (CNN)</kw> is a type of deep
+          learning model specifically designed for
+          <strong>image and spatial data processing</strong>. It automatically
+          learns <kw>feature maps</kw> from raw pixel data by applying
+          <kw>convolution operations</kw> using learned
+          <kw>filters/kernels</kw>.
+        </p>
+        <p>
+          CNN consists of three main layer types: <kw>Convolutional Layer</kw>,
+          <kw>Pooling Layer</kw>, and <kw>Fully Connected Layer</kw>. It is
+          inspired by the visual cortex of the human brain.
+        </p>
+        <div class="mnemonic-box">
+          <strong>Mnemonic:</strong> "CPF" = Convolutional → Pooling → Fully
+          Connected (repeat CP, then F at end)
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-teal">13-Mark Answer Format</span>
+        <h3>1. CNN Architecture Layers</h3>
+
+        <h4>Layer 1: Convolutional Layer</h4>
+        <p>
+          Applies <kw>filters (kernels)</kw> to the input image. Each filter
+          slides across the image (<kw>sliding window</kw>) and computes
+          <kw>element-wise multiplication + sum</kw> = feature map. Detects
+          edges, textures, patterns.
+        </p>
+        <div class="eq-box">
+          <div class="eq-label">Convolution Operation</div>
+          <div class="eq-main">Feature Map = Input ⊛ Filter + Bias</div>
+          <div class="eq-terms">
+            ⊛ = convolution | Output size = (N - F + 1) where N = input size, F
+            = filter size
+          </div>
+        </div>
+
+        <h4>Layer 2: Activation Function (ReLU)</h4>
+        <p>
+          After convolution, <kw>ReLU (Rectified Linear Unit)</kw> is applied:
+          f(x) = max(0, x). Introduces non-linearity and speeds up training.
+        </p>
+
+        <h4>Layer 3: Pooling Layer</h4>
+        <p>
+          <kw>Max Pooling</kw> takes the maximum value from each region. Reduces
+          spatial dimensions, retains important features, provides
+          <kw>translation invariance</kw>.
+        </p>
+
+        <h4>Layer 4: Flatten Layer</h4>
+        <p>
+          Converts the 2D feature maps into a <kw>1D vector</kw> to feed into
+          fully connected layers.
+        </p>
+
+        <h4>Layer 5: Fully Connected Layer</h4>
+        <p>
+          Standard <kw>dense layers</kw> that perform classification based on
+          extracted features.
+        </p>
+
+        <h4>Layer 6: Output Layer</h4>
+        <p>
+          Uses <kw>Softmax</kw> for multi-class classification,
+          <kw>Sigmoid</kw> for binary classification.
+        </p>
+
+        <h3>2. Architecture Diagram (Draw this!)</h3>
+        <div class="diagram-box">
+          Input Conv+ReLU Pooling Conv+ReLU Pooling Flatten FC Output Image →
+          [Feature → [Reduced → [Feature → [Reduced → [Vector → [Dense → [Class
+          (H×W×C) Maps] Maps] Maps] Maps] Layers] Scores] Example: 32×32×3 →
+          28×28×32 → 14×14×32 → 10×10×64 → 5×5×64 → 1600 → 128 → 10
+        </div>
+
+        <h3>3. Key CNN Concepts</h3>
+        <table>
+          <tr>
+            <th>Concept</th>
+            <th>Meaning</th>
+            <th>Purpose</th>
+          </tr>
+          <tr>
+            <td><kw>Filter/Kernel</kw></td>
+            <td>Small weight matrix (e.g., 3×3)</td>
+            <td>Detects specific features</td>
+          </tr>
+          <tr>
+            <td><kw>Stride</kw></td>
+            <td>Steps the filter moves</td>
+            <td>Controls output size</td>
+          </tr>
+          <tr>
+            <td><kw>Padding</kw></td>
+            <td>Zeros added around input</td>
+            <td>Preserves spatial dimensions</td>
+          </tr>
+          <tr>
+            <td><kw>Feature Map</kw></td>
+            <td>Output of convolution</td>
+            <td>Learned feature representation</td>
+          </tr>
+          <tr>
+            <td><kw>Max Pooling</kw></td>
+            <td>Takes max in each region</td>
+            <td>Dimensionality reduction</td>
+          </tr>
+          <tr>
+            <td><kw>Parameter Sharing</kw></td>
+            <td>Same filter across all positions</td>
+            <td>Reduces parameters drastically</td>
+          </tr>
+        </table>
+
+        <h3>4. Flowchart</h3>
+        <div class="flow">
+          <div class="flow-box">Input Image</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box teal">Conv Layer</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box teal">ReLU</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box yellow">Pooling</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box teal">Conv+ReLU</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box yellow">Pooling</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box orange">Flatten</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box orange">FC Layer</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box">Output</div>
+        </div>
+
+        <h3>5. Popular CNN Architectures</h3>
+        <table>
+          <tr>
+            <th>Model</th>
+            <th>Year</th>
+            <th>Layers</th>
+            <th>Key Innovation</th>
+          </tr>
+          <tr>
+            <td><kw>LeNet-5</kw></td>
+            <td>1998</td>
+            <td>7</td>
+            <td>First successful CNN</td>
+          </tr>
+          <tr>
+            <td><kw>AlexNet</kw></td>
+            <td>2012</td>
+            <td>8</td>
+            <td>Dropout, ReLU, GPU training</td>
+          </tr>
+          <tr>
+            <td><kw>VGGNet</kw></td>
+            <td>2014</td>
+            <td>16/19</td>
+            <td>Uniform 3×3 filters</td>
+          </tr>
+          <tr>
+            <td><kw>ResNet</kw></td>
+            <td>2015</td>
+            <td>50–152</td>
+            <td>Residual/Skip connections</td>
+          </tr>
+          <tr>
+            <td><kw>GoogLeNet</kw></td>
+            <td>2014</td>
+            <td>22</td>
+            <td>Inception modules</td>
+          </tr>
+        </table>
+
+        <h3>6. Advantages &amp; Disadvantages</h3>
+        <div class="grid2">
+          <div>
+            <h4>✅ Advantages</h4>
+            <ul>
+              <li>Automatic feature extraction</li>
+              <li>Translation invariance (shift-robust)</li>
+              <li>Parameter sharing reduces parameters</li>
+              <li>State-of-the-art in image tasks</li>
+              <li>Hierarchical feature learning</li>
+            </ul>
+          </div>
+          <div>
+            <h4>❌ Disadvantages</h4>
+            <ul>
+              <li>Requires large labeled datasets</li>
+              <li>High computational cost</li>
+              <li>Not suitable for sequence data</li>
+              <li>Black box — hard to interpret</li>
+              <li>Needs GPU for fast training</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>7. Real-World Applications</h3>
+        <ul>
+          <li>
+            <strong>Image Classification:</strong> ImageNet, Google Photos
+          </li>
+          <li>
+            <strong>Object Detection:</strong> YOLO, Faster R-CNN (self-driving
+            cars)
+          </li>
+          <li>
+            <strong>Medical Imaging:</strong> X-ray diagnosis, tumor detection
+          </li>
+          <li>
+            <strong>Face Recognition:</strong> FaceID, surveillance systems
+          </li>
+          <li>
+            <strong>Autonomous Vehicles:</strong> Real-time road detection
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Exam Writing Tips</h3>
+        <div class="tip-box">
+          <strong>Exam Tip:</strong> Always mention "CNN was inspired by the
+          visual cortex of the human brain" — examiners love this. Draw the
+          architecture as a pipeline of blocks. Use a table for the layer types.
+          Mention at least 3 real CNN models by name.
+        </div>
+        <h4>Filler Points</h4>
+        <ul>
+          <li>
+            "Parameter sharing means the same filter is applied across all
+            spatial positions, significantly reducing the number of trainable
+            parameters compared to fully connected layers."
+          </li>
+          <li>
+            "Max pooling provides spatial invariance, meaning the network can
+            recognize objects regardless of their exact position in the image."
+          </li>
+          <li>
+            "The depth of feature maps increases as we go deeper into the
+            network (from edges → textures → patterns → objects)."
+          </li>
+        </ul>
+        <div class="mnemonic-box">
+          <strong>Mnemonic for Layers:</strong> "Can People Feel Fully
+          Complete?" = Conv → Pool → Flatten → Fully Connected → Classification
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+     TOPIC 3: RNN vs LSTM vs GRU
+═══════════════════════════════════════════════════════════ -->
+    <div class="section" id="s2">
+      <div class="sec-header">
+        <div class="sec-num">03</div>
+        <div>
+          <div class="sec-title">RNN vs LSTM vs GRU</div>
+          <div class="sec-sub">
+            SEQUENTIAL DATA · MEMORY GATES · GATED RECURRENT NETWORKS
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-purple">5-Mark Answer</span>
+        <h2>Recurrent Neural Networks (RNN)</h2>
+        <p>
+          An <kw>RNN (Recurrent Neural Network)</kw> is a neural network
+          designed for <strong>sequential and time-series data</strong>. Unlike
+          standard neural networks, RNNs have <kw>feedback connections</kw> —
+          the output of a neuron at one timestep is fed back as input at the
+          next timestep. This creates a form of <kw>memory</kw>.
+        </p>
+        <p>
+          However, basic RNNs suffer from the
+          <kw>Vanishing Gradient Problem</kw>, making them unable to learn
+          <kw>long-term dependencies</kw>. This led to the development of
+          <kw>LSTM</kw> and <kw>GRU</kw>.
+        </p>
+        <div class="mnemonic-box">
+          <strong>Mnemonic:</strong> "RNN = Remember Next Note" (processes
+          sequences step by step)
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-teal">13-Mark Answer Format</span>
+
+        <h3>1. RNN — Basic Structure</h3>
+        <div class="diagram-box">
+          h(t-1) h(t) │ │ x(t) →[RNN Cell]→ [RNN Cell] → output ↑ ↑ (shares
+          weights across all timesteps) h(t) = tanh(W_h × h(t-1) + W_x × x(t) +
+          b)
+        </div>
+        <div class="eq-box">
+          <div class="eq-label">RNN Hidden State</div>
+          <div class="eq-main">h(t) = tanh(W_h · h(t-1) + W_x · x(t) + b)</div>
+          <div class="eq-terms">
+            h(t) = current hidden state | h(t-1) = previous state | x(t) = input
+            at time t
+          </div>
+        </div>
+
+        <h3>2. LSTM — Long Short-Term Memory</h3>
+        <p>
+          LSTM solves the vanishing gradient problem using a
+          <kw>Cell State</kw> (long-term memory) and three <kw>gates</kw>:
+        </p>
+        <table>
+          <tr>
+            <th>Gate</th>
+            <th>Function</th>
+            <th>What it controls</th>
+          </tr>
+          <tr>
+            <td><kw>Forget Gate (f)</kw></td>
+            <td>σ(W_f · [h,x] + b_f)</td>
+            <td>What to erase from cell state</td>
+          </tr>
+          <tr>
+            <td><kw>Input Gate (i)</kw></td>
+            <td>σ(W_i · [h,x] + b_i)</td>
+            <td>What new info to add to cell state</td>
+          </tr>
+          <tr>
+            <td><kw>Output Gate (o)</kw></td>
+            <td>σ(W_o · [h,x] + b_o)</td>
+            <td>What to output as hidden state</td>
+          </tr>
+        </table>
+
+        <div class="diagram-box">
+          LSTM Cell: ┌─────────────────────────────────────────────────────┐ │
+          C(t-1) ──[FORGET]──────[INPUT]──────────── C(t) │ │ ↑ │ │ [tanh(new)]
+          │ │ h(t-1), x(t) → f,i,g,o gates → h(t) output │
+          └─────────────────────────────────────────────────────┘ Cell State
+          C(t) = f⊙C(t-1) + i⊙tanh(candidate) Hidden State h(t) = o⊙tanh(C(t))
+        </div>
+
+        <h3>3. GRU — Gated Recurrent Unit</h3>
+        <p>
+          GRU is a <strong>simplified version of LSTM</strong> with only
+          <strong>two gates</strong>, making it faster and more efficient:
+        </p>
+        <table>
+          <tr>
+            <th>Gate</th>
+            <th>Function</th>
+          </tr>
+          <tr>
+            <td><kw>Reset Gate (r)</kw></td>
+            <td>Controls how much past info to forget</td>
+          </tr>
+          <tr>
+            <td><kw>Update Gate (z)</kw></td>
+            <td>Controls how much of past state to carry forward</td>
+          </tr>
+        </table>
+        <p>
+          GRU has <strong>no separate cell state</strong> — it merges cell state
+          and hidden state into one.
+        </p>
+
+        <h3>4. Master Comparison Table (MOST IMPORTANT)</h3>
+        <table>
+          <tr>
+            <th>Feature</th>
+            <th>RNN</th>
+            <th>LSTM</th>
+            <th>GRU</th>
+          </tr>
+          <tr>
+            <td>Memory</td>
+            <td>Short-term only</td>
+            <td>Short + Long-term</td>
+            <td>Short + Long-term</td>
+          </tr>
+          <tr>
+            <td>Gates</td>
+            <td>None</td>
+            <td>3 (F, I, O)</td>
+            <td>2 (Reset, Update)</td>
+          </tr>
+          <tr>
+            <td>Cell State</td>
+            <td>No</td>
+            <td>Yes (C_t)</td>
+            <td>No (merged)</td>
+          </tr>
+          <tr>
+            <td>Parameters</td>
+            <td>Fewest</td>
+            <td>Most</td>
+            <td>Medium</td>
+          </tr>
+          <tr>
+            <td>Training Speed</td>
+            <td>Fastest</td>
+            <td>Slowest</td>
+            <td>Fast</td>
+          </tr>
+          <tr>
+            <td>Vanishing Gradient</td>
+            <td>Severe</td>
+            <td>Solved</td>
+            <td>Solved</td>
+          </tr>
+          <tr>
+            <td>Best For</td>
+            <td>Short sequences</td>
+            <td>Long sequences</td>
+            <td>Medium sequences</td>
+          </tr>
+          <tr>
+            <td>Applications</td>
+            <td>Simple NLP</td>
+            <td>Speech, Translation</td>
+            <td>Text generation</td>
+          </tr>
+        </table>
+
+        <h3>5. Flowchart</h3>
+        <div class="flow">
+          <div class="flow-box">Sequential Input (x1,x2,...,xn)</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box teal">RNN: h(t) = tanh(Wh·h(t-1) + Wx·x(t))</div>
+        </div>
+        <div class="flow" style="margin-top: 0.4rem">
+          <div class="flow-box">Vanishing Gradient Problem</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box yellow">LSTM: 3 Gates + Cell State</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box orange">GRU: 2 Gates (Simplified)</div>
+        </div>
+
+        <h3>6. Real-World Applications</h3>
+        <div class="grid3">
+          <div>
+            <h4>RNN</h4>
+            <ul>
+              <li>Simple text prediction</li>
+              <li>Short time series</li>
+            </ul>
+          </div>
+          <div>
+            <h4>LSTM</h4>
+            <ul>
+              <li>Machine Translation</li>
+              <li>Speech Recognition</li>
+              <li>Sentiment Analysis</li>
+            </ul>
+          </div>
+          <div>
+            <h4>GRU</h4>
+            <ul>
+              <li>Text Generation</li>
+              <li>Music generation</li>
+              <li>Video captioning</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Exam Writing Tips</h3>
+        <div class="tip-box">
+          <strong>Exam Tip:</strong> The comparison table is worth at least 4-5
+          marks on its own. Always explain the vanishing gradient problem and
+          why LSTM/GRU were invented. Draw at least the LSTM gate diagram. Use
+          the words "gate mechanism" and "long-term dependencies" frequently.
+        </div>
+        <h4>Filler Points</h4>
+        <ul>
+          <li>
+            "The vanishing gradient problem occurs when gradients become
+            exponentially small during backpropagation through time (BPTT),
+            preventing the network from learning long-range dependencies."
+          </li>
+          <li>
+            "LSTM introduces a cell state C(t) that acts as a highway for
+            gradient flow, enabling learning of long-term dependencies spanning
+            hundreds of timesteps."
+          </li>
+          <li>
+            "GRU achieves performance comparable to LSTM while using fewer
+            parameters, making it computationally more efficient, especially for
+            smaller datasets."
+          </li>
+        </ul>
+        <div class="mnemonic-box">
+          <strong>Gates Mnemonic:</strong> LSTM: "FIO" — Forget, Input, Output |
+          GRU: "RU" — Reset, Update
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+     TOPIC 4: REGULARIZATION
+═══════════════════════════════════════════════════════════ -->
+    <div class="section" id="s3">
+      <div class="sec-header">
+        <div class="sec-num">04</div>
+        <div>
+          <div class="sec-title">Regularization Techniques</div>
+          <div class="sec-sub">
+            OVERFITTING PREVENTION · GENERALIZATION · MODEL COMPLEXITY
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-purple">5-Mark Answer</span>
+        <h2>What is Regularization?</h2>
+        <p>
+          <kw>Regularization</kw> refers to techniques used to
+          <strong>prevent overfitting</strong> in neural networks.
+          <kw>Overfitting</kw> occurs when a model learns the training data too
+          well (including noise), resulting in poor performance on unseen test
+          data.
+        </p>
+        <p>
+          Regularization adds a <kw>penalty term</kw> to the loss function to
+          discourage complex models, or uses structural methods like
+          <kw>Dropout</kw> to improve generalization.
+        </p>
+        <div class="mnemonic-box">
+          <strong>Mnemonic:</strong> "DBLE" = Dropout, Batch Norm, L1/L2, Early
+          Stopping
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-teal">13-Mark Answer Format</span>
+
+        <h3>1. The Problem: Overfitting vs Underfitting</h3>
+        <div class="diagram-box">
+          Training Loss Test Loss Conclusion
+          ───────────────────────────────────────── High High → Underfitting
+          (too simple) Low Low → Good Fit ✓ Low High → Overfitting (too complex)
+          ← FIX WITH REGULARIZATION
+        </div>
+
+        <h3>2. L1 Regularization (Lasso)</h3>
+        <div class="eq-box">
+          <div class="eq-label">L1 Loss</div>
+          <div class="eq-main">L_total = L_original + λ × Σ|w|</div>
+          <div class="eq-terms">
+            λ = regularization strength | |w| = absolute value of weights
+          </div>
+        </div>
+        <p>
+          L1 produces <kw>sparse models</kw> — many weights become exactly zero.
+          Used for <kw>feature selection</kw>.
+        </p>
+
+        <h3>3. L2 Regularization (Ridge / Weight Decay)</h3>
+        <div class="eq-box">
+          <div class="eq-label">L2 Loss</div>
+          <div class="eq-main">L_total = L_original + λ × Σw²</div>
+          <div class="eq-terms">
+            λ = regularization strength | w² = squared weights
+          </div>
+        </div>
+        <p>
+          L2 makes weights small but not zero. Most commonly used in deep
+          learning (<kw>weight decay</kw>).
+        </p>
+
+        <h3>4. Dropout</h3>
+        <p>
+          During training, each neuron is
+          <strong>randomly "dropped out"</strong> (set to 0) with probability p.
+          This forces the network to learn <kw>redundant representations</kw>.
+          At test time, all neurons are used but scaled by (1-p).
+        </p>
+        <div class="diagram-box">
+          Without Dropout: [N1]─[N2]─[N3]─[N4] (all connected) With Dropout:
+          [N1]─[ ]─[N3]─[ ] (random neurons dropped each batch) ↑ ↑ (dropped)
+          (dropped)
+        </div>
+
+        <h3>5. Batch Normalization</h3>
+        <p>
+          Normalizes the <kw>activations</kw> of each layer to have mean=0 and
+          variance=1. Reduces <kw>internal covariate shift</kw>, allows higher
+          learning rates, acts as implicit regularization.
+        </p>
+        <div class="eq-box">
+          <div class="eq-label">Batch Norm</div>
+          <div class="eq-main">x̂ = (x − μ) / √(σ² + ε) ; y = γx̂ + β</div>
+          <div class="eq-terms">
+            μ = batch mean | σ² = batch variance | γ, β = learnable parameters
+          </div>
+        </div>
+
+        <h3>6. Early Stopping</h3>
+        <p>
+          Monitor validation loss during training.
+          <strong>Stop training</strong> when validation loss starts increasing
+          (even if training loss continues decreasing). Prevents overfitting by
+          not training too long.
+        </p>
+        <div class="diagram-box">
+          Loss │ Train loss ↘ │ ↘_____________ │ Val loss ↘ ↗ (overfitting
+          starts here!) │ ↘__↗ └──────────────────────────── Epochs ↑ STOP HERE
+          (Early Stopping)
+        </div>
+
+        <h3>7. Master Comparison Table</h3>
+        <table>
+          <tr>
+            <th>Technique</th>
+            <th>How it works</th>
+            <th>Best for</th>
+            <th>Cost</th>
+          </tr>
+          <tr>
+            <td><kw>L1 (Lasso)</kw></td>
+            <td>Adds |w| penalty</td>
+            <td>Feature selection</td>
+            <td>Sparse weights</td>
+          </tr>
+          <tr>
+            <td><kw>L2 (Ridge)</kw></td>
+            <td>Adds w² penalty</td>
+            <td>General use</td>
+            <td>Small weights</td>
+          </tr>
+          <tr>
+            <td><kw>Dropout</kw></td>
+            <td>Randomly drops neurons</td>
+            <td>Deep networks</td>
+            <td>Slower training</td>
+          </tr>
+          <tr>
+            <td><kw>Batch Norm</kw></td>
+            <td>Normalizes activations</td>
+            <td>Deep/CNN models</td>
+            <td>Extra parameters</td>
+          </tr>
+          <tr>
+            <td><kw>Early Stopping</kw></td>
+            <td>Stops at best val loss</td>
+            <td>All networks</td>
+            <td>Needs val set</td>
+          </tr>
+          <tr>
+            <td><kw>Data Augmentation</kw></td>
+            <td>Increases training data</td>
+            <td>Image tasks</td>
+            <td>Computation</td>
+          </tr>
+        </table>
+
+        <h3>8. Flowchart</h3>
+        <div class="flow">
+          <div class="flow-box orange">Model Overfitting Detected</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box teal">Add L1/L2 Penalty</div>
+          <div class="flow-arrow">OR</div>
+          <div class="flow-box teal">Apply Dropout</div>
+          <div class="flow-arrow">OR</div>
+          <div class="flow-box yellow">Use Early Stopping</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box">Better Generalization</div>
+        </div>
+
+        <h3>9. Real-World Applications</h3>
+        <ul>
+          <li>Dropout used in AlexNet — reduced error by 2%</li>
+          <li>Batch Norm used in ResNet — enables 100+ layer training</li>
+          <li>L2 regularization used in most production ML models</li>
+          <li>Data augmentation in medical imaging (flip, rotate X-rays)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Exam Writing Tips</h3>
+        <div class="tip-box">
+          <strong>Exam Tip:</strong> Open by explaining overfitting clearly with
+          a small diagram. Then list all techniques one by one. Write the L1 and
+          L2 equations. Draw the "Early Stopping" graph — it's impressive and
+          easy. Always end with "Regularization improves the generalization
+          ability of the model."
+        </div>
+        <h4>Filler Points</h4>
+        <ul>
+          <li>
+            "L1 regularization tends to produce sparse weight vectors, making it
+            useful for feature selection in high-dimensional data."
+          </li>
+          <li>
+            "Dropout can be seen as training an ensemble of 2^n different
+            sub-networks simultaneously, which improves robustness."
+          </li>
+          <li>
+            "Batch normalization reduces the sensitivity to weight
+            initialization and allows the use of higher learning rates."
+          </li>
+        </ul>
+        <div class="mnemonic-box">
+          <strong>Mnemonic:</strong> "DBLES" = Dropout, Batch norm, L1, Early
+          stopping, Sparse (L2)
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+     TOPIC 5: TENSOR OPERATIONS
+═══════════════════════════════════════════════════════════ -->
+    <div class="section" id="s4">
+      <div class="sec-header">
+        <div class="sec-num">05</div>
+        <div>
+          <div class="sec-title">Tensor Operations</div>
+          <div class="sec-sub">
+            MULTI-DIMENSIONAL ARRAYS · MATRIX OPERATIONS · DEEP LEARNING MATH
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-purple">5-Mark Answer</span>
+        <h2>What is a Tensor?</h2>
+        <p>
+          A <kw>Tensor</kw> is a
+          <strong>generalization of scalars, vectors, and matrices</strong> to
+          any number of dimensions. It is the fundamental data structure in deep
+          learning. All data (images, text, audio) and model weights are
+          represented as tensors.
+        </p>
+        <p>
+          The number of dimensions is called the <kw>rank</kw> or
+          <kw>order</kw> of the tensor. Tensor operations are the building
+          blocks of neural network computations.
+        </p>
+        <div class="mnemonic-box">
+          <strong>Mnemonic:</strong> "SVM...T" = Scalar (0D) → Vector (1D) →
+          Matrix (2D) → Tensor (nD)
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-teal">13-Mark Answer Format</span>
+
+        <h3>1. Tensor Types by Rank</h3>
+        <table>
+          <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Example</th>
+            <th>Shape</th>
+          </tr>
+          <tr>
+            <td><kw>0</kw></td>
+            <td>Scalar</td>
+            <td>Temperature = 37.5</td>
+            <td>()</td>
+          </tr>
+          <tr>
+            <td><kw>1</kw></td>
+            <td>Vector</td>
+            <td>[1, 2, 3, 4]</td>
+            <td>(4,)</td>
+          </tr>
+          <tr>
+            <td><kw>2</kw></td>
+            <td>Matrix</td>
+            <td>2D array of numbers</td>
+            <td>(3, 4)</td>
+          </tr>
+          <tr>
+            <td><kw>3</kw></td>
+            <td>3D Tensor</td>
+            <td>Color image (H×W×C)</td>
+            <td>(224, 224, 3)</td>
+          </tr>
+          <tr>
+            <td><kw>4</kw></td>
+            <td>4D Tensor</td>
+            <td>Batch of images</td>
+            <td>(32, 224, 224, 3)</td>
+          </tr>
+        </table>
+
+        <h3>2. Key Tensor Operations</h3>
+        <h4>A. Element-wise Operations</h4>
+        <p>
+          Addition, subtraction, multiplication applied
+          <kw>element by element</kw>. Both tensors must have the same shape.
+        </p>
+        <div class="eq-box">
+          <div class="eq-main">C[i,j] = A[i,j] + B[i,j] (same for ×, −, /)</div>
+        </div>
+
+        <h4>B. Matrix Multiplication (Dot Product)</h4>
+        <p>
+          Most important operation in neural networks. Computes the
+          <kw>weighted sum</kw> of inputs.
+        </p>
+        <div class="eq-box">
+          <div class="eq-label">Matrix Multiplication</div>
+          <div class="eq-main">C = A · B where C[i,j] = Σ A[i,k] × B[k,j]</div>
+          <div class="eq-terms">
+            A: (m×n) · B: (n×p) = C: (m×p) ← inner dimensions must match
+          </div>
+        </div>
+
+        <h4>C. Broadcasting</h4>
+        <p>
+          <kw>Broadcasting</kw> allows operations between tensors of different
+          shapes by automatically expanding the smaller tensor. Example: Adding
+          a vector (1×3) to a matrix (4×3) — the vector is broadcast across all
+          4 rows.
+        </p>
+
+        <h4>D. Transpose</h4>
+        <div class="eq-box">
+          <div class="eq-main">A^T: if A is (m×n), then A^T is (n×m)</div>
+        </div>
+
+        <h4>E. Reshape / Flatten</h4>
+        <p>
+          Changes the shape of a tensor without changing its data. Used between
+          Conv and FC layers.
+        </p>
+        <div class="eq-box">
+          <div class="eq-main">Tensor (4,4,16) → Reshape → Vector (256,)</div>
+        </div>
+
+        <h4>F. Convolution (Tensor Operation)</h4>
+        <p>
+          Sliding a <kw>filter tensor</kw> over an <kw>input tensor</kw> with
+          element-wise multiplication and summation.
+        </p>
+
+        <h3>3. Diagram — Tensor Dimensions</h3>
+        <div class="diagram-box">
+          Scalar: 42 (rank 0) Vector: [1, 5, 3, 2] (rank 1, shape: 4) Matrix:
+          [[1,2,3], (rank 2, shape: 2×3) [4,5,6]] 3D Tensor: RGB Image (rank 3,
+          shape: H×W×3) R-channel [[...]] G-channel [[...]] B-channel [[...]] 4D
+          Tensor: Batch of 32 RGB images (rank 4, shape: 32×H×W×3)
+        </div>
+
+        <h3>4. Tensor Operations in Neural Networks</h3>
+        <table>
+          <tr>
+            <th>Operation</th>
+            <th>Used In</th>
+            <th>Purpose</th>
+          </tr>
+          <tr>
+            <td><kw>Dot Product</kw></td>
+            <td>FC Layers</td>
+            <td>Weighted sum: Z = W·X + b</td>
+          </tr>
+          <tr>
+            <td><kw>Convolution</kw></td>
+            <td>CNN</td>
+            <td>Feature extraction from images</td>
+          </tr>
+          <tr>
+            <td><kw>Element-wise ×</kw></td>
+            <td>LSTM Gates</td>
+            <td>Gating mechanism</td>
+          </tr>
+          <tr>
+            <td><kw>Softmax</kw></td>
+            <td>Output Layer</td>
+            <td>Probability distribution</td>
+          </tr>
+          <tr>
+            <td><kw>Reshape</kw></td>
+            <td>CNN → FC</td>
+            <td>Flatten feature maps</td>
+          </tr>
+          <tr>
+            <td><kw>Transpose</kw></td>
+            <td>Attention</td>
+            <td>Key-Query product in transformers</td>
+          </tr>
+        </table>
+
+        <h3>5. Advantages of Tensor Operations</h3>
+        <ul>
+          <li>Can be <strong>GPU-parallelized</strong> for massive speedup</li>
+          <li>
+            Frameworks like <kw>TensorFlow</kw> and <kw>PyTorch</kw> optimize
+            tensor ops automatically
+          </li>
+          <li>
+            Unified representation for all data types (images, text, audio)
+          </li>
+          <li>
+            Enables <kw>automatic differentiation</kw> (autograd) for
+            backpropagation
+          </li>
+        </ul>
+
+        <h3>6. Real-World Use</h3>
+        <ul>
+          <li>PyTorch/TensorFlow use tensor ops for all DL computations</li>
+          <li>
+            Batch processing: 32 images processed simultaneously as a 4D tensor
+          </li>
+          <li>Transformers use tensor dot products for attention mechanisms</li>
+          <li>NumPy ndarray is the base tensor structure in Python ML</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Exam Writing Tips</h3>
+        <div class="tip-box">
+          <strong>Exam Tip:</strong> Always start with the hierarchy
+          Scalar→Vector→Matrix→Tensor. Explain at least 4 operations with small
+          examples. Matrix multiplication rules (inner dimensions must match) is
+          commonly tested. Mention GPU acceleration to show practical awareness.
+        </div>
+        <div class="mnemonic-box">
+          <strong>Mnemonic:</strong> "SMRT" = Scalar, Matrix (2D), Rank, Tensor
+          (nD)
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+     TOPIC 6: SHALLOW VS DEEP NEURAL NETWORKS
+═══════════════════════════════════════════════════════════ -->
+    <div class="section" id="s5">
+      <div class="sec-header">
+        <div class="sec-num">06</div>
+        <div>
+          <div class="sec-title">Shallow vs Deep Neural Networks</div>
+          <div class="sec-sub">
+            NETWORK DEPTH · REPRESENTATION POWER · FEATURE HIERARCHY
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-purple">5-Mark Answer</span>
+        <h2>Shallow vs Deep Neural Networks</h2>
+        <p>
+          A <kw>Shallow Neural Network</kw> has only
+          <strong>one hidden layer</strong> between input and output. A
+          <kw>Deep Neural Network (DNN)</kw> has
+          <strong>multiple hidden layers</strong> (usually 3 or more).
+        </p>
+        <p>
+          Deep networks learn <kw>hierarchical feature representations</kw> —
+          lower layers learn simple features (edges), higher layers learn
+          complex features (objects). This hierarchical learning gives deep
+          networks a significant advantage over shallow networks for complex
+          tasks.
+        </p>
+        <div class="mnemonic-box">
+          <strong>Mnemonic:</strong> "Shallow = Simple. Deep = Detailed +
+          Hierarchical."
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-teal">13-Mark Answer Format</span>
+
+        <h3>1. Architecture Comparison Diagram</h3>
+        <div class="diagram-box">
+          SHALLOW NETWORK (1 hidden layer): Input → [Hidden Layer (many
+          neurons)] → Output [I1] [I2] ──→ [H1, H2, H3, ..., Hn] ──→ [O1] [I3]
+          DEEP NETWORK (multiple hidden layers): Input → [L1] → [L2] → [L3] →
+          ... → [Ln] → Output [I1] [I2] → [H1] → [H2] → [H3] → [H4] → [O1] [I3]
+          ↑ ↑ ↑ ↑ Edges Shapes Objects Scene
+        </div>
+
+        <h3>2. Universal Approximation Theorem</h3>
+        <p>
+          A shallow network with enough neurons can theoretically approximate
+          any function (<kw>Universal Approximation Theorem</kw>). However, it
+          may require an
+          <strong>exponentially large number of neurons</strong> to do so,
+          making it impractical.
+        </p>
+
+        <h3>3. Hierarchical Feature Learning (Deep Networks)</h3>
+        <p>Deep networks automatically learn a <kw>feature hierarchy</kw>:</p>
+        <div class="flow">
+          <div class="flow-box">Layer 1: Edges &amp; Lines</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box teal">Layer 2: Corners &amp; Curves</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box yellow">Layer 3: Object Parts</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box orange">Layer 4: Full Objects</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box">Output: Classification</div>
+        </div>
+
+        <h3>4. Master Comparison Table</h3>
+        <table>
+          <tr>
+            <th>Feature</th>
+            <th>Shallow NN</th>
+            <th>Deep NN</th>
+          </tr>
+          <tr>
+            <td>Hidden Layers</td>
+            <td>1</td>
+            <td>Multiple (≥3)</td>
+          </tr>
+          <tr>
+            <td>Parameters</td>
+            <td>Fewer</td>
+            <td>Many millions</td>
+          </tr>
+          <tr>
+            <td>Feature Learning</td>
+            <td>Manual/flat</td>
+            <td>Hierarchical/automatic</td>
+          </tr>
+          <tr>
+            <td>Data Required</td>
+            <td>Less</td>
+            <td>Large datasets needed</td>
+          </tr>
+          <tr>
+            <td>Training Time</td>
+            <td>Fast</td>
+            <td>Slow (GPU needed)</td>
+          </tr>
+          <tr>
+            <td>Overfitting Risk</td>
+            <td>Lower</td>
+            <td>Higher (needs regularization)</td>
+          </tr>
+          <tr>
+            <td>Performance (complex tasks)</td>
+            <td>Poor</td>
+            <td>Excellent</td>
+          </tr>
+          <tr>
+            <td>Vanishing Gradient</td>
+            <td>Rare</td>
+            <td>Common (use BatchNorm/ReLU)</td>
+          </tr>
+          <tr>
+            <td>Interpretability</td>
+            <td>Easier</td>
+            <td>Very difficult (black box)</td>
+          </tr>
+          <tr>
+            <td>Example Models</td>
+            <td>Perceptron, SVM</td>
+            <td>ResNet, BERT, GPT</td>
+          </tr>
+        </table>
+
+        <h3>5. When to Use Which</h3>
+        <table>
+          <tr>
+            <th>Use Case</th>
+            <th>Recommended</th>
+            <th>Reason</th>
+          </tr>
+          <tr>
+            <td>Small tabular data</td>
+            <td>Shallow NN</td>
+            <td>Less overfitting risk</td>
+          </tr>
+          <tr>
+            <td>Image classification</td>
+            <td>Deep CNN</td>
+            <td>Hierarchical features needed</td>
+          </tr>
+          <tr>
+            <td>Simple regression</td>
+            <td>Shallow NN</td>
+            <td>Faster, interpretable</td>
+          </tr>
+          <tr>
+            <td>NLP, Speech</td>
+            <td>Deep (LSTM/Transformer)</td>
+            <td>Complex patterns</td>
+          </tr>
+        </table>
+
+        <h3>6. Advantages &amp; Disadvantages</h3>
+        <div class="grid2">
+          <div>
+            <h4>Shallow NN</h4>
+            <ul>
+              <li>✅ Fast training</li>
+              <li>✅ Less data needed</li>
+              <li>✅ Easy to interpret</li>
+              <li>❌ Poor for complex tasks</li>
+              <li>❌ Manual feature engineering</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Deep NN</h4>
+            <ul>
+              <li>✅ Automatic feature learning</li>
+              <li>✅ Superior accuracy</li>
+              <li>✅ State-of-the-art results</li>
+              <li>❌ Needs huge data &amp; compute</li>
+              <li>❌ Vanishing gradient issues</li>
+              <li>❌ Black box (less interpretable)</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>7. Key Innovations Enabling Deep Networks</h3>
+        <ul>
+          <li><kw>ReLU Activation</kw> — mitigates vanishing gradient</li>
+          <li><kw>Batch Normalization</kw> — stabilizes training</li>
+          <li><kw>Dropout</kw> — prevents overfitting</li>
+          <li><kw>Residual Connections</kw> — enables 100+ layer training</li>
+          <li><kw>GPUs</kw> — parallel computation for fast training</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Exam Writing Tips</h3>
+        <div class="tip-box">
+          <strong>Exam Tip:</strong> Always mention the Universal Approximation
+          Theorem for shallow networks. Draw both architectures side by side.
+          The comparison table is the core of this answer. Mention at least 3
+          innovations that made deep networks practical. End with "Deep networks
+          have revolutionized AI in computer vision, NLP, and speech
+          recognition."
+        </div>
+        <div class="mnemonic-box">
+          <strong>Mnemonic:</strong> "Deep = Data + GPU + Dropout + Gradients
+          (managed)"
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+     TOPIC 7: AUTOENCODERS
+═══════════════════════════════════════════════════════════ -->
+    <div class="section" id="s6">
+      <div class="sec-header">
+        <div class="sec-num">07</div>
+        <div>
+          <div class="sec-title">Autoencoders</div>
+          <div class="sec-sub">
+            UNSUPERVISED LEARNING · DIMENSIONALITY REDUCTION · FEATURE LEARNING
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-purple">5-Mark Answer</span>
+        <h2>What is an Autoencoder?</h2>
+        <p>
+          An <kw>Autoencoder</kw> is an
+          <strong>unsupervised neural network</strong> that learns to
+          <kw>compress</kw> (encode) the input into a lower-dimensional
+          representation called the <kw>latent space</kw> or
+          <kw>bottleneck</kw>, and then <kw>reconstruct</kw> (decode) the
+          original input from it.
+        </p>
+        <p>
+          It has two parts: <kw>Encoder</kw> (compresses input) and
+          <kw>Decoder</kw> (reconstructs input). The network is trained to
+          minimize <kw>reconstruction error</kw> between input and output.
+        </p>
+        <div class="mnemonic-box">
+          <strong>Mnemonic:</strong> "Zip → Unzip" (like a data compressor that
+          learns the best compression)
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-teal">13-Mark Answer Format</span>
+
+        <h3>1. Architecture</h3>
+        <div class="diagram-box">
+          ENCODER DECODER Input → [Layer1] → [Layer2] → [LATENT] → [Layer2'] →
+          [Layer1'] → Output 784 512 256 64 256 512 784 neurons neurons neurons
+          neurons neurons neurons neurons Input ≈ Output (Reconstruction) Loss =
+          ||Input - Output||² (Reconstruction Error / MSE)
+        </div>
+
+        <h3>2. Three Components</h3>
+        <table>
+          <tr>
+            <th>Component</th>
+            <th>Function</th>
+            <th>Output</th>
+          </tr>
+          <tr>
+            <td><kw>Encoder</kw></td>
+            <td>Compresses input to lower dimension</td>
+            <td>Latent code z</td>
+          </tr>
+          <tr>
+            <td><kw>Bottleneck (Latent Space)</kw></td>
+            <td>Compact representation of data</td>
+            <td>z (low-dim)</td>
+          </tr>
+          <tr>
+            <td><kw>Decoder</kw></td>
+            <td>Reconstructs input from z</td>
+            <td>x̂ (reconstruction)</td>
+          </tr>
+        </table>
+
+        <h3>3. Loss Function</h3>
+        <div class="eq-box">
+          <div class="eq-label">Reconstruction Loss (MSE)</div>
+          <div class="eq-main">L = (1/n) × Σ ||x - x̂||²</div>
+          <div class="eq-terms">
+            x = original input | x̂ = reconstructed output | n = number of
+            samples
+          </div>
+        </div>
+
+        <h3>4. Types of Autoencoders</h3>
+        <table>
+          <tr>
+            <th>Type</th>
+            <th>Key Feature</th>
+            <th>Use Case</th>
+          </tr>
+          <tr>
+            <td><kw>Vanilla AE</kw></td>
+            <td>Basic encode-decode</td>
+            <td>Compression, denoising</td>
+          </tr>
+          <tr>
+            <td><kw>Sparse AE</kw></td>
+            <td>Most neurons inactive (L1 on latent)</td>
+            <td>Feature learning</td>
+          </tr>
+          <tr>
+            <td><kw>Denoising AE</kw></td>
+            <td>Input is corrupted, learns to clean</td>
+            <td>Noise removal</td>
+          </tr>
+          <tr>
+            <td><kw>Variational AE (VAE)</kw></td>
+            <td>Latent space is a probability distribution</td>
+            <td>Image generation</td>
+          </tr>
+          <tr>
+            <td><kw>Convolutional AE</kw></td>
+            <td>Uses Conv layers</td>
+            <td>Image compression</td>
+          </tr>
+        </table>
+
+        <h3>5. Flowchart</h3>
+        <div class="flow">
+          <div class="flow-box">Input x</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box teal">Encoder: z = f(x)</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box yellow">Latent Space z</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box teal">Decoder: x̂ = g(z)</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box orange">Compute Loss: ||x - x̂||²</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box">Backprop &amp; Update</div>
+        </div>
+
+        <h3>6. Advantages &amp; Disadvantages</h3>
+        <div class="grid2">
+          <div>
+            <h4>✅ Advantages</h4>
+            <ul>
+              <li>Unsupervised — no labels needed</li>
+              <li>Learns compact representations</li>
+              <li>Removes noise from data</li>
+              <li>Useful for anomaly detection</li>
+              <li>Foundation for generative models (VAE)</li>
+            </ul>
+          </div>
+          <div>
+            <h4>❌ Disadvantages</h4>
+            <ul>
+              <li>Reconstruction may be blurry</li>
+              <li>Latent space may not be smooth (vanilla)</li>
+              <li>Cannot generate truly new samples well</li>
+              <li>Harder to evaluate (no labels)</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>7. Real-World Applications</h3>
+        <ul>
+          <li><strong>Image Compression:</strong> Learn compact image codes</li>
+          <li>
+            <strong>Denoising:</strong> Remove noise from images, audio
+            (Netflix, medical imaging)
+          </li>
+          <li>
+            <strong>Anomaly Detection:</strong> Credit card fraud, network
+            intrusion (high reconstruction error = anomaly)
+          </li>
+          <li>
+            <strong>Dimensionality Reduction:</strong> Alternative to PCA for
+            non-linear data
+          </li>
+          <li>
+            <strong>Image Generation:</strong> VAE can generate new faces,
+            artwork
+          </li>
+        </ul>
+
+        <h3>8. Autoencoder vs PCA</h3>
+        <table>
+          <tr>
+            <th>Feature</th>
+            <th>PCA</th>
+            <th>Autoencoder</th>
+          </tr>
+          <tr>
+            <td>Type</td>
+            <td>Linear</td>
+            <td>Non-linear</td>
+          </tr>
+          <tr>
+            <td>Method</td>
+            <td>Eigenvectors</td>
+            <td>Neural network</td>
+          </tr>
+          <tr>
+            <td>Flexibility</td>
+            <td>Limited</td>
+            <td>Very flexible</td>
+          </tr>
+          <tr>
+            <td>Complexity</td>
+            <td>Simple</td>
+            <td>Complex</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>Exam Writing Tips</h3>
+        <div class="tip-box">
+          <strong>Exam Tip:</strong> The "zip-unzip" analogy is excellent to
+          open with. Always draw the hourglass/bottleneck architecture. Mention
+          Denoising AE and VAE as important variants. Anomaly detection
+          application (high reconstruction error = anomaly) is a great point
+          that most students miss.
+        </div>
+        <div class="mnemonic-box">
+          <strong>Mnemonic:</strong> "ELVD" = Encoder → Latent → Variational →
+          Decoder (remember the types by thinking of evolution)
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+     TOPIC 8: RBM / DBN / CBM
+═══════════════════════════════════════════════════════════ -->
+    <div class="section" id="s7">
+      <div class="sec-header">
+        <div class="sec-num">08</div>
+        <div>
+          <div class="sec-title">RBM / DBN / CBM</div>
+          <div class="sec-sub">
+            RESTRICTED BOLTZMANN MACHINE · DEEP BELIEF NETWORK · CONTRASTIVE
+            DIVERGENCE
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-purple">5-Mark Answer</span>
+        <h2>Restricted Boltzmann Machine (RBM)</h2>
+        <p>
+          An <kw>RBM (Restricted Boltzmann Machine)</kw> is a type of
+          <strong>generative stochastic neural network</strong> with two layers:
+          a <kw>visible layer</kw> (input) and a <kw>hidden layer</kw>. The word
+          "restricted" means there are
+          <strong>no connections within the same layer</strong> — only
+          connections between visible and hidden neurons.
+        </p>
+        <p>
+          RBMs learn to represent the <kw>probability distribution</kw> of the
+          input data and are trained using an algorithm called
+          <kw>Contrastive Divergence (CD)</kw>.
+        </p>
+        <div class="mnemonic-box">
+          <strong>Mnemonic:</strong> "RBM = Restricted = No same-layer
+          connections. VH only (Visible-Hidden)"
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge badge-teal">13-Mark Answer Format</span>
+
+        <h3>1. RBM Architecture &amp; Diagram</h3>
+        <div class="diagram-box">
+          VISIBLE LAYER (v) HIDDEN LAYER (h) v1 ─────────────────── h1 v1
+          ─────────────────── h2 v2 ─────────────────── h1 v2
+          ─────────────────── h2 v3 ─────────────────── h3 (all visible connect
+          (all hidden connect to all hidden) to all visible) No connections: v1
+          ↔ v2 (within layer — RESTRICTED!)
+        </div>
+
+        <h3>2. Energy Function</h3>
+        <div class="eq-box">
+          <div class="eq-label">RBM Energy Function</div>
+          <div class="eq-main">
+            E(v,h) = −Σ_i b_i v_i − Σ_j c_j h_j − Σ_ij v_i W_ij h_j
+          </div>
+          <div class="eq-terms">
+            v = visible units | h = hidden units | b,c = biases | W = weights |
+            Lower energy = better configuration
+          </div>
+        </div>
+
+        <h3>3. Training Algorithm: Contrastive Divergence (CD)</h3>
+        <ol>
+          <li>
+            <strong>Positive Phase:</strong> Input visible vector v → compute
+            P(h|v) → sample h
+          </li>
+          <li>
+            <strong>Negative Phase:</strong> Reconstruct visible from h → v'
+            (reconstruction)
+          </li>
+          <li><strong>Gradient:</strong> ΔW ∝ ⟨v·h⟩_data − ⟨v·h⟩_model</li>
+          <li><strong>Update Weights:</strong> W = W + η × ΔW</li>
+        </ol>
+        <div class="flow">
+          <div class="flow-box">Input v</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box teal">P(h|v): Positive Phase</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box yellow">Reconstruct v'</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box teal">P(h'|v'): Negative Phase</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box orange">ΔW Update</div>
+        </div>
+
+        <h3>4. Deep Belief Network (DBN)</h3>
+        <p>
+          A <kw>DBN (Deep Belief Network)</kw> is a stack of multiple RBMs
+          trained
+          <strong>layer by layer (greedy layer-wise pretraining)</strong>. Each
+          RBM is trained independently before fine-tuning the whole network with
+          backpropagation.
+        </p>
+        <div class="diagram-box">
+          DBN Architecture: Output Layer ↑ [RBM 3: Top layer] ↑ [RBM 2: Middle
+          layer] ↑ [RBM 1: Bottom layer] ↑ Input Data Training: Train RBM1 first
+          → treat output as input for RBM2 → train RBM2 → etc. Then: Fine-tune
+          entire network with backpropagation.
+        </div>
+
+        <h3>5. CBM — Convolutional Boltzmann Machine</h3>
+        <p>
+          A <kw>CBM (Convolutional Boltzmann Machine)</kw> extends RBM to use
+          <kw>convolutional filters</kw> instead of fully connected weights.
+          This allows it to capture <strong>spatial structure</strong> in image
+          data, combining benefits of both RBM and CNN.
+        </p>
+        <p>
+          CBMs are used for <kw>unsupervised feature learning from images</kw>.
+        </p>
+
+        <h3>6. Master Comparison Table</h3>
+        <table>
+          <tr>
+            <th>Feature</th>
+            <th>RBM</th>
+            <th>DBN</th>
+            <th>CBM</th>
+          </tr>
+          <tr>
+            <td>Layers</td>
+            <td>2 (V + H)</td>
+            <td>Multiple RBMs stacked</td>
+            <td>2 + Convolution</td>
+          </tr>
+          <tr>
+            <td>Training</td>
+            <td>Contrastive Divergence</td>
+            <td>Greedy + Backprop</td>
+            <td>CD + Convolution</td>
+          </tr>
+          <tr>
+            <td>Type</td>
+            <td>Generative</td>
+            <td>Generative + Discriminative</td>
+            <td>Generative (image)</td>
+          </tr>
+          <tr>
+            <td>Data</td>
+            <td>Any</td>
+            <td>Any (complex)</td>
+            <td>Image/Spatial</td>
+          </tr>
+          <tr>
+            <td>Application</td>
+            <td>Collaborative filtering</td>
+            <td>Pre-training DNNs</td>
+            <td>Image features</td>
+          </tr>
+        </table>
+
+        <h3>7. Advantages &amp; Disadvantages</h3>
+        <div class="grid2">
+          <div>
+            <h4>✅ Advantages</h4>
+            <ul>
+              <li>Can model complex data distributions</li>
+              <li>Good for <kw>unsupervised pre-training</kw></li>
+              <li>DBN enables deep network initialization</li>
+              <li>Generative — can create new samples</li>
+            </ul>
+          </div>
+          <div>
+            <h4>❌ Disadvantages</h4>
+            <ul>
+              <li>Slow training (MCMC-based)</li>
+              <li>Difficult to evaluate (no clear loss)</li>
+              <li>Mostly replaced by autoencoders + GANs</li>
+              <li>Not scalable to very deep networks</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>8. Real-World Applications</h3>
+        <ul>
+          <li>
+            <strong>RBM:</strong> Netflix movie recommendation, dimensionality
+            reduction
+          </li>
+          <li>
+            <strong>DBN:</strong> Speech recognition (pre-training), image
+            recognition
+          </li>
+          <li><strong>CBM:</strong> Unsupervised image feature extraction</li>
+          <li>
+            Historically important: DBNs (2006) reignited interest in deep
+            learning
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Exam Writing Tips</h3>
+        <div class="tip-box">
+          <strong>Exam Tip:</strong> Emphasize "Restricted = No within-layer
+          connections" early. Always draw the bipartite RBM graph. Explain
+          Contrastive Divergence as "Positive Phase → Negative Phase → Weight
+          Update." For DBN, use the stacked diagram and mention greedy
+          layer-wise training. Always mention that RBMs were historically
+          important for the deep learning renaissance in 2006.
+        </div>
+        <div class="mnemonic-box">
+          <strong>Mnemonic:</strong> "RBM = Restricted Bipartite Monster" | "DBN
+          = Deep Belief by stacKing" | "CBM = CNN + Boltzmann"
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+     CHEAT SHEET
+═══════════════════════════════════════════════════════════ -->
+    <div class="section" id="s8">
+      <div class="sec-header">
+        <div class="sec-num">⚡</div>
+        <div>
+          <div class="sec-title">Last 2-Hour Revision Cheat Sheet</div>
+          <div class="sec-sub">
+            MOST IMPORTANT POINTS · KEYWORDS · EQUATIONS · MNEMONICS
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Critical Equations — Memorize These First</h3>
+        <table>
+          <tr>
+            <th>Topic</th>
+            <th>Equation</th>
+            <th>What it means</th>
+          </tr>
+          <tr>
+            <td>Backprop</td>
+            <td>w = w − η·(∂L/∂w)</td>
+            <td>Weight update rule</td>
+          </tr>
+          <tr>
+            <td>Backprop</td>
+            <td>∂L/∂w = (∂L/∂y)(∂y/∂z)(∂z/∂w)</td>
+            <td>Chain rule</td>
+          </tr>
+          <tr>
+            <td>CNN</td>
+            <td>Output = (N − F + 1)</td>
+            <td>Output size after conv</td>
+          </tr>
+          <tr>
+            <td>RNN</td>
+            <td>h(t) = tanh(W_h·h(t-1) + W_x·x(t))</td>
+            <td>Hidden state update</td>
+          </tr>
+          <tr>
+            <td>L1 Reg</td>
+            <td>L = L₀ + λΣ|w|</td>
+            <td>Lasso penalty</td>
+          </tr>
+          <tr>
+            <td>L2 Reg</td>
+            <td>L = L₀ + λΣw²</td>
+            <td>Ridge penalty</td>
+          </tr>
+          <tr>
+            <td>Batch Norm</td>
+            <td>x̂ = (x−μ)/√(σ²+ε)</td>
+            <td>Normalize activations</td>
+          </tr>
+          <tr>
+            <td>Autoencoder</td>
+            <td>L = Σ||x − x̂||²</td>
+            <td>Reconstruction loss</td>
+          </tr>
+          <tr>
+            <td>RBM</td>
+            <td>E(v,h) = −b·v − c·h − v·W·h</td>
+            <td>Energy function</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="cheat-grid">
+        <div class="cheat-card">
+          <h3>01 Backpropagation</h3>
+          <ul>
+            <li>
+              Forward pass → compute loss → backward pass → update weights
+            </li>
+            <li>Uses <kw>chain rule</kw> for gradient computation</li>
+            <li>Gradient Descent: Batch / SGD / Mini-batch</li>
+            <li>Problem: Vanishing gradient in deep nets</li>
+            <li>Mnemonic: FILB-U</li>
+          </ul>
+        </div>
+        <div class="cheat-card">
+          <h3>02 CNN Architecture</h3>
+          <ul>
+            <li>Conv → ReLU → Pool → Conv → Pool → Flatten → FC → Output</li>
+            <li>Filter extracts features; Pooling reduces size</li>
+            <li>Parameter sharing = same filter across positions</li>
+            <li>Translation invariance from pooling</li>
+            <li>Models: LeNet, AlexNet, VGG, ResNet, GoogLeNet</li>
+          </ul>
+        </div>
+        <div class="cheat-card">
+          <h3>03 RNN / LSTM / GRU</h3>
+          <ul>
+            <li>RNN: short memory, vanishing gradient problem</li>
+            <li>LSTM: 3 gates (Forget, Input, Output) + Cell State</li>
+            <li>GRU: 2 gates (Reset, Update), no cell state</li>
+            <li>LSTM = long sequences | GRU = faster LSTM</li>
+            <li>Gates use sigmoid (0-1) for gating</li>
+          </ul>
+        </div>
+        <div class="cheat-card">
+          <h3>04 Regularization</h3>
+          <ul>
+            <li>Goal: Prevent overfitting, improve generalization</li>
+            <li>L1: sparse weights, feature selection</li>
+            <li>L2: small weights, weight decay</li>
+            <li>Dropout: randomly drop neurons during training</li>
+            <li>BatchNorm: normalize layer activations</li>
+            <li>Early Stopping: stop at best validation loss</li>
+          </ul>
+        </div>
+        <div class="cheat-card">
+          <h3>05 Tensor Operations</h3>
+          <ul>
+            <li>Scalar(0D) → Vector(1D) → Matrix(2D) → Tensor(nD)</li>
+            <li>Dot product: (m×n)·(n×p) = (m×p)</li>
+            <li>Broadcasting: auto-expand smaller tensor</li>
+            <li>Reshape/Flatten: used between Conv and FC layers</li>
+            <li>GPU accelerates all tensor ops in parallel</li>
+          </ul>
+        </div>
+        <div class="cheat-card">
+          <h3>06 Shallow vs Deep NN</h3>
+          <ul>
+            <li>Shallow: 1 hidden layer, fewer params, fast</li>
+            <li>Deep: multiple layers, hierarchical features</li>
+            <li>
+              Universal Approximation Theorem: shallow can approximate any fn
+            </li>
+            <li>Deep needs: ReLU + BatchNorm + Dropout + Residuals + GPU</li>
+            <li>Deep excels at: images, speech, NLP</li>
+          </ul>
+        </div>
+        <div class="cheat-card">
+          <h3>07 Autoencoders</h3>
+          <ul>
+            <li>Encoder → Latent Space (bottleneck) → Decoder</li>
+            <li>Loss = Reconstruction error (MSE)</li>
+            <li>Types: Vanilla, Sparse, Denoising, VAE, Conv AE</li>
+            <li>Application: Compression, Denoising, Anomaly Detection</li>
+            <li>Anomaly = high reconstruction error</li>
+          </ul>
+        </div>
+        <div class="cheat-card">
+          <h3>08 RBM / DBN / CBM</h3>
+          <ul>
+            <li>RBM: Visible + Hidden, no same-layer connections</li>
+            <li>Training: Contrastive Divergence (+ and − phases)</li>
+            <li>DBN: Stack of RBMs, greedy layer-wise training</li>
+            <li>CBM: RBM + Convolutional filters for images</li>
+            <li>Historical: DBN (2006) restarted deep learning era</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 1rem">
+        <h3>All Mnemonics — One Place</h3>
+        <table>
+          <tr>
+            <th>Topic</th>
+            <th>Mnemonic</th>
+            <th>Meaning</th>
+          </tr>
+          <tr>
+            <td>Backprop</td>
+            <td>FILB-U</td>
+            <td>Forward → Input → Loss → Backward → Update</td>
+          </tr>
+          <tr>
+            <td>CNN Layers</td>
+            <td>Can People Feel Fully Complete?</td>
+            <td>Conv → Pool → Flatten → FC → Classification</td>
+          </tr>
+          <tr>
+            <td>LSTM Gates</td>
+            <td>FIO</td>
+            <td>Forget, Input, Output</td>
+          </tr>
+          <tr>
+            <td>GRU Gates</td>
+            <td>RU</td>
+            <td>Reset, Update</td>
+          </tr>
+          <tr>
+            <td>Regularization</td>
+            <td>DBLES</td>
+            <td>Dropout, Batch Norm, L1, Early Stopping, L2 (sparse)</td>
+          </tr>
+          <tr>
+            <td>Tensor Ranks</td>
+            <td>SMRT</td>
+            <td>Scalar, Matrix (2D), Rank, Tensor (nD)</td>
+          </tr>
+          <tr>
+            <td>Autoencoder</td>
+            <td>Zip → Unzip</td>
+            <td>Encode (compress) → Decode (reconstruct)</td>
+          </tr>
+          <tr>
+            <td>RBM</td>
+            <td>VH only</td>
+            <td>Only Visible-Hidden connections (no within-layer)</td>
+          </tr>
+          <tr>
+            <td>Deep NN</td>
+            <td>DGDR</td>
+            <td>Data + GPU + Dropout + Residuals</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>Last-Minute Keywords Per Topic (Underline These in Exam)</h3>
+        <div class="cheat-grid">
+          <div class="cheat-card">
+            <h3>Backprop</h3>
+            <p style="font-size: 0.85rem">
+              <kw>Chain Rule</kw> · <kw>Gradient Descent</kw> ·
+              <kw>Learning Rate</kw> · <kw>Loss Function</kw> ·
+              <kw>Vanishing Gradient</kw> · <kw>Epoch</kw> ·
+              <kw>Weight Update</kw>
+            </p>
+          </div>
+          <div class="cheat-card">
+            <h3>CNN</h3>
+            <p style="font-size: 0.85rem">
+              <kw>Feature Map</kw> · <kw>Filter/Kernel</kw> · <kw>Pooling</kw> ·
+              <kw>Stride</kw> · <kw>Padding</kw> · <kw>Parameter Sharing</kw> ·
+              <kw>Translation Invariance</kw>
+            </p>
+          </div>
+          <div class="cheat-card">
+            <h3>RNN/LSTM/GRU</h3>
+            <p style="font-size: 0.85rem">
+              <kw>Vanishing Gradient</kw> · <kw>Long-term Dependencies</kw> ·
+              <kw>Cell State</kw> · <kw>Forget Gate</kw> · <kw>BPTT</kw> ·
+              <kw>Sequential Data</kw> · <kw>Hidden State</kw>
+            </p>
+          </div>
+          <div class="cheat-card">
+            <h3>Regularization</h3>
+            <p style="font-size: 0.85rem">
+              <kw>Overfitting</kw> · <kw>Generalization</kw> ·
+              <kw>Dropout</kw> · <kw>Batch Normalization</kw> ·
+              <kw>Penalty Term</kw> · <kw>Sparse Weights</kw> ·
+              <kw>Validation Loss</kw>
+            </p>
+          </div>
+          <div class="cheat-card">
+            <h3>Tensors</h3>
+            <p style="font-size: 0.85rem">
+              <kw>Rank</kw> · <kw>Shape</kw> · <kw>Broadcasting</kw> ·
+              <kw>Dot Product</kw> · <kw>Element-wise</kw> · <kw>Reshape</kw> ·
+              <kw>GPU Parallel</kw>
+            </p>
+          </div>
+          <div class="cheat-card">
+            <h3>Shallow vs Deep</h3>
+            <p style="font-size: 0.85rem">
+              <kw>Universal Approximation</kw> · <kw>Feature Hierarchy</kw> ·
+              <kw>Residual Connections</kw> · <kw>ReLU</kw> ·
+              <kw>Representation Learning</kw>
+            </p>
+          </div>
+          <div class="cheat-card">
+            <h3>Autoencoder</h3>
+            <p style="font-size: 0.85rem">
+              <kw>Encoder</kw> · <kw>Decoder</kw> · <kw>Latent Space</kw> ·
+              <kw>Bottleneck</kw> · <kw>Reconstruction Error</kw> ·
+              <kw>VAE</kw> · <kw>Unsupervised</kw>
+            </p>
+          </div>
+          <div class="cheat-card">
+            <h3>RBM/DBN/CBM</h3>
+            <p style="font-size: 0.85rem">
+              <kw>Restricted</kw> · <kw>Visible/Hidden Layer</kw> ·
+              <kw>Contrastive Divergence</kw> · <kw>Energy Function</kw> ·
+              <kw>Greedy Pretraining</kw> · <kw>Generative</kw>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>2-Hour Study Plan</h3>
+        <table>
+          <tr>
+            <th>Time</th>
+            <th>Activity</th>
+            <th>Focus</th>
+          </tr>
+          <tr>
+            <td>0:00–0:15</td>
+            <td>Read Cheat Sheet top-to-bottom</td>
+            <td>Big picture overview</td>
+          </tr>
+          <tr>
+            <td>0:15–0:30</td>
+            <td>Memorize all equations</td>
+            <td>Write them 3 times each</td>
+          </tr>
+          <tr>
+            <td>0:30–0:50</td>
+            <td>Practice drawing all diagrams</td>
+            <td>CNN, LSTM cell, Autoencoder, RBM</td>
+          </tr>
+          <tr>
+            <td>0:50–1:10</td>
+            <td>Read all comparison tables</td>
+            <td>RNN vs LSTM vs GRU, L1 vs L2, etc.</td>
+          </tr>
+          <tr>
+            <td>1:10–1:30</td>
+            <td>Memorize mnemonics + keywords</td>
+            <td>What to underline in exam</td>
+          </tr>
+          <tr>
+            <td>1:30–1:50</td>
+            <td>Write one 5-mark answer per topic</td>
+            <td>Practice writing without notes</td>
+          </tr>
+          <tr>
+            <td>1:50–2:00</td>
+            <td>Review all real-world applications</td>
+            <td>One per topic is enough</td>
+          </tr>
+        </table>
+        <div class="warn-box" style="margin-top: 1rem">
+          <strong>Golden Rule:</strong> In the exam, always start with a
+          definition, then draw a diagram, then give a list/table, then
+          applications. This structure alone impresses most evaluators and fills
+          pages naturally.
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function show(idx) {
+        document
+          .querySelectorAll(".section")
+          .forEach((s, i) => s.classList.toggle("active", i === idx));
+        document
+          .querySelectorAll(".nav-tab")
+          .forEach((t, i) => t.classList.toggle("active", i === idx));
+        window.scrollTo(0, 0);
+      }
+    </script>
+  </body>
+</html>
